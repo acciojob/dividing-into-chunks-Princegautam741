@@ -1,21 +1,35 @@
-// The function to find the second-highest element
-function secondHighest(arr) {
-    // Check if the array is empty or has only one element
-    if (arr.length <= 1) {
-        return -Infinity;
+const arr = [1, 2, 3, 4, 1, 0, 2, 2];
+
+const divide = (arr, n) => {
+    let result = [];
+    let currentSubarray = [];
+
+    let currentSum = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        const currentElement = arr[i];
+
+        if (currentSum + currentElement <= n) {
+            // Add the element to the current subarray
+            currentSubarray.push(currentElement);
+            currentSum += currentElement;
+        } else {
+            // Start a new subarray
+            result.push([...currentSubarray]);
+            currentSubarray = [currentElement];
+            currentSum = currentElement;
+        }
     }
 
-    // Remove duplicate elements and sort the array in descending order
-    const uniqueSortedArr = [...new Set(arr)].sort((a, b) => b - a);
-
-    // If all elements are the same, return -Infinity
-    if (uniqueSortedArr.length === 1) {
-        return -Infinity;
+    // Add the last subarray
+    if (currentSubarray.length > 0) {
+        result.push([...currentSubarray]);
     }
 
-    // Return the second-highest element
-    return uniqueSortedArr[1];
-}
+    return result;
+};
 
-// Export the function for testing
-module.exports = secondHighest;
+const inputN = prompt("Enter n: ");
+const n = parseInt(inputN);
+
+alert(JSON.stringify(divide(arr, n)));
